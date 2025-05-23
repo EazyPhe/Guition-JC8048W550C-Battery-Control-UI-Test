@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.bak": "cpp"
+    },
+    "idf.portWin": "COM8"
+}
