@@ -126,6 +126,14 @@
 
 ---
 
+## Board Pinouts Reference
+
+For up-to-date and detailed pin mappings (display, touch, backlight, etc.) for all supported boards, see [Board_Pinouts.md](./Board_Pinouts.md) in the `docs/` folder. This file summarizes the GPIO assignments for each board, making it easy to adapt the project to custom hardware or verify your connections.
+
+If you are building a custom implementation, always cross-check your hardware wiring with the relevant table in `Board_Pinouts.md` and the board JSON in the `boards/` directory.
+
+---
+
 ## Troubleshooting
 - **No display output:** Ensure `lcd_panel_init()` is implemented and the correct pins are set in the board JSON and `main.cpp`.
 - **Touch not working:** Check GT911 wiring, I2C address, and pin assignments.

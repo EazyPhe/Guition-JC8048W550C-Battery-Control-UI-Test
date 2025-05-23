@@ -134,4 +134,12 @@ This guide summarizes the key learnings and configuration steps for successfully
 
 ---
 
+## Board Pinouts Reference
+
+For up-to-date and detailed pin mappings (display, touch, backlight, etc.) for all supported boards, see the new [Board_Pinouts.md](./Board_Pinouts.md) file in the `docs/` folder. This file summarizes the GPIO assignments for each board, making it easy to adapt the project to custom hardware or verify your connections.
+
+If you are building a custom implementation, always cross-check your hardware wiring with the relevant table in `Board_Pinouts.md` and the board JSON in the `boards/` directory.
+
+---
+
 **If you follow these steps and match the working project's configuration exactly, your ST7262 panel should initialize and display correctly on the ESP32S3 with LVGL 8.3.x.**
