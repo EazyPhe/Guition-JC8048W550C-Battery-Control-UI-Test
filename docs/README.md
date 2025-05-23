@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Guition-JC8048W550C-Battery-Control-UI-Test** is a PlatformIO-based firmware project for the ESP32-S3 microcontroller, designed to drive an 800x480 RGB LCD panel (ST7262 controller) with capacitive touch (GT911) using the LVGL graphics library. The project is focused on a SquareLine Studio-generated UI (LVGL 8.3.x compatible) and does not include a demo UI.
+**Guition-JC8048W550C-Battery-Control-UI-Test** is a PlatformIO-based firmware project for the ESP32-S3 microcontroller, designed to drive an 800x480 RGB LCD panel (ST7262 controller) with capacitive touch (GT911) using the LVGL graphics library. The project is focused on a SquareLine Studio-generated UI (LVGL 8.3.x compatible).
 
 ---
 
