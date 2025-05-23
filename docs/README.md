@@ -142,3 +142,5 @@
 ---
 
 *This documentation was updated May 2025. For hardware-specific details, refer to your board's datasheet and the `boards/` directory.*
+
+*More updates to come as I learn more about this board. Stay Tuned!*
