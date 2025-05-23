@@ -35,7 +35,6 @@ lv_obj_t * ui_Label16;
 lv_obj_t * ui_Label17;
 lv_obj_t * ui_Label18;
 lv_obj_t * ui_Spinner1;
-lv_obj_t * ui_Switch1;
 
 // event funtions
 void ui_event_Button1(lv_event_t * e)
@@ -292,13 +291,6 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_align(ui_Spinner1, LV_ALIGN_CENTER);
     lv_obj_clear_flag(ui_Spinner1, LV_OBJ_FLAG_CLICKABLE);      /// Flags
 
-    ui_Switch1 = lv_switch_create(ui_Screen1);
-    lv_obj_set_width(ui_Switch1, 48);
-    lv_obj_set_height(ui_Switch1, 24);
-    lv_obj_set_x(ui_Switch1, -263);
-    lv_obj_set_y(ui_Switch1, 117);
-    lv_obj_set_align(ui_Switch1, LV_ALIGN_CENTER);
-
     lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button3, ui_event_Button3, LV_EVENT_ALL, NULL);
 
@@ -339,6 +331,5 @@ void ui_Screen1_screen_destroy(void)
     ui_Label17 = NULL;
     ui_Label18 = NULL;
     ui_Spinner1 = NULL;
-    ui_Switch1 = NULL;
 
 }

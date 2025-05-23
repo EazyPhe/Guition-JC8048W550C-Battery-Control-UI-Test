@@ -45,7 +45,6 @@ extern lv_obj_t * ui_Label16;
 extern lv_obj_t * ui_Label17;
 extern lv_obj_t * ui_Label18;
 extern lv_obj_t * ui_Spinner1;
-extern lv_obj_t * ui_Switch1;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus
