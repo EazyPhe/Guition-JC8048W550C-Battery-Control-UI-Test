@@ -4,6 +4,49 @@ This document provides a summary of the display and touch controller pin mapping
 
 ---
 
+## Table of Contents
+
+- [JC8048W550 (ESP32-S3, 7" 800x480, ST7262 + GT911)](#jc8048w550-esp32-s3-7-800x480-st7262--gt911)
+- [ESP32-8048S043C (800x480, ST7262 + GT911)](#esp32-8048s043c-800x480-st7262--gt911)
+- [ESP32-8048S050C (800x480, ST7262 + GT911)](#esp32-8048s050c-800x480-st7262--gt911)
+- [ESP32-8048S070C (800x480, ST7262 + GT911)](#esp32-8048s070c-800x480-st7262--gt911)
+- [ESP32-S3-Touch-LCD-7 (800x480, ST7262 + GT911)](#esp32-s3-touch-lcd-7-800x480-st7262--gt911)
+- [ESP32-3248S035C (320x480, ST7796 + GT911)](#esp32-3248s035c-320x480-st7796--gt911)
+- [ESP32-2432S032C (240x320, ST7789 + GT911)](#esp32-2432s032c-240x320-st7789--gt911)
+- [JC4827W543C (480x272, NV3041A + GT911)](#jc4827w543c-480x272-nv3041a--gt911)
+- [ESP32-1732S019C (170x320, ST7789 + GT911)](#esp32-1732s019c-170x320-st7789--gt911)
+- [ESP32-2432S024R](#esp32-2432s024r)
+- [ESP32-2432S028R](#esp32-2432s028r)
+- [ESP32-2432S028Rv2](#esp32-2432s028rv2)
+- [ESP32-2432S028Rv3](#esp32-2432s028rv3)
+- [ESP32-2432S032N](#esp32-2432s032n)
+- [ESP32-2432S032R](#esp32-2432s032r)
+- [ESP32-2432W328C](#esp32-2432w328c)
+- [ESP32-3248S035R](#esp32-3248s035r)
+- [ESP32-4827S043C](#esp32-4827s043c)
+- [ESP32-4827S043N](#esp32-4827s043n)
+- [ESP32-4827S043R](#esp32-4827s043r)
+- [ESP32-4848S040CIY1](#esp32-4848s040ciy1)
+- [ESP32-4848S040CIY3](#esp32-4848s040ciy3)
+- [ESP32-8048S043N](#esp32-8048s043n)
+- [ESP32-8048S043R](#esp32-8048s043r)
+- [ESP32-8048S050N](#esp32-8048s050n)
+- [ESP32-8048S050R](#esp32-8048s050r)
+- [ESP32-8048S070N](#esp32-8048s070n)
+- [ESP32-8048S070R](#esp32-8048s070r)
+- [ESP32-8048S550C](#esp32-8048s550c)
+- [ESP32-S3-Touch-LCD-7](#esp32-s3-touch-lcd-7)
+- [ESP32-1732S019N](#placeholder-esp32-1732s019n)
+- [ESP32-2424S012C (240x240, GC9A01A + CST816S)](#esp32-2424s012c-240x240-gc9a01a--cst816s)
+- [ESP32-2424S012N (240x240, GC9A01A)](#esp32-2424s012n-240x240-gc9a01a)
+- [ESP32-2432S022C (240x320, ST7789 + CST816S)](#esp32-2432s022c-240x320-st7789--cst816s)
+- [ESP32-2432S022N (240x320, ST7789)](#esp32-2432s022n-240x320-st7789)
+- [ESP32-2432S024C (240x320, ILI9341 + CST816S)](#esp32-2432s024c-240x320-ili9341--cst816s)
+- [ESP32-2432S024N (240x320, ILI9341)](#esp32-2432s024n-240x320-ili9341)
+- [ESP32-2432S024R (240x320, ILI9341 + XPT2046)](#esp32-2432s024r-240x320-ili9341--xpt2046)
+
+---
+
 ## How to Use
 - Use these tables to quickly identify the correct GPIO assignments for display, touch, and other peripherals for each board.
 - For custom hardware, refer to the relevant table and update your board JSON and code accordingly.
@@ -431,8 +474,8 @@ This document provides a summary of the display and touch controller pin mapping
 | SD Card SCLK     | 18   | TF_SPI_SCLK          |
 | SD Card MISO     | 19   | TF_SPI_MISO          |
 | RGB LED R        | 4    |                      |
-| RGB LED G        | 16    |                      |
-| RGB LED B        | 17    |                      |
+| RGB LED G        | 16   |                      |
+| RGB LED B        | 17   |                      |
 | CDS              | 34   |                      |
 | Speaker          | 26   |                      |
 
@@ -728,201 +771,6 @@ This document provides a summary of the display and touch controller pin mapping
 
 ---
 
-## [PLACEHOLDER] ESP32-1732S019N
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| (Fill in pinout details from esp32-1732S019N.json) |
-
----
-
-## ESP32-2424S012C (240x240, GC9A01A + CST816S)
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD SPI MOSI     | 7    | GC9A01A SPI          |
-| LCD SPI SCLK     | 6    |                      |
-| LCD CS           | 10   |                      |
-| LCD DC           | 2    |                      |
-| Backlight        | 3    |                      |
-| Touch SDA        | 4    | CST816S I2C          |
-| Touch SCL        | 5    |                      |
-| Touch INT        | 0    |                      |
-| Touch RST        | 1    |                      |
-
----
-
-## ESP32-2424S012N (240x240, GC9A01A)
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD SPI MOSI     | 7    | GC9A01A SPI          |
-| LCD SPI SCLK     | 6    |                      |
-| LCD CS           | 10   |                      |
-| LCD DC           | 2    |                      |
-| Backlight        | 3    |                      |
-| Touch SDA        | 4    | CST816S I2C          |
-| Touch SCL        | 5    |                      |
-| Touch INT        | 0    |                      |
-| Touch RST        | 1    |                      |
-
----
-
-## ESP32-2432S022C (240x320, ST7789 + CST816S)
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD I80 D8       | 15   | ST7789 I80           |
-| LCD I80 D9       | 13   |                      |
-| LCD I80 D10      | 12   |                      |
-| LCD I80 D11      | 14   |                      |
-| LCD I80 D12      | 27   |                      |
-| LCD I80 D13      | 25   |                      |
-| LCD I80 D14      | 33   |                      |
-| LCD I80 D15      | 32   |                      |
-| LCD I80 CS       | 17   |                      |
-| LCD I80 DC       | 16   |                      |
-| LCD I80 WR       | 4    |                      |
-| LCD RD           | 2    |                      |
-| Backlight        | 0    |                      |
-| Touch SDA        | 21   | CST816S I2C          |
-| Touch SCL        | 22   |                      |
-| SD Card CS       | 5    |                      |
-| SD Card MOSI     | 23   |                      |
-| SD Card SCLK     | 18   |                      |
-| SD Card MISO     | 19   |                      |
-| Speaker          | 26   |                      |
-
----
-
-## ESP32-2432S022N (240x320, ST7789)
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD I80 D8       | 15   | ST7789 I80           |
-| LCD I80 D9       | 13   |                      |
-| LCD I80 D10      | 12   |                      |
-| LCD I80 D11      | 14   |                      |
-| LCD I80 D12      | 27   |                      |
-| LCD I80 D13      | 25   |                      |
-| LCD I80 D14      | 33   |                      |
-| LCD I80 D15      | 32   |                      |
-| LCD I80 CS       | 17   |                      |
-| LCD I80 DC       | 16   |                      |
-| LCD I80 WR       | 4    |                      |
-| LCD RD           | 2    |                      |
-| Backlight        | 0    |                      |
-| SD Card CS       | 5    |                      |
-| SD Card MOSI     | 23   |                      |
-| SD Card SCLK     | 18   |                      |
-| SD Card MISO     | 19   |                      |
-| Speaker          | 26   |                      |
-
----
-
-## ESP32-2432S024C (240x320, ILI9341 + CST816S)
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD SPI MOSI     | 13   | ILI9341 SPI          |
-| LCD SPI MISO     | 12   |                      |
-| LCD SPI SCLK     | 14   |                      |
-| LCD CS           | 15   |                      |
-| LCD DC           | 2    |                      |
-| Backlight        | 27   |                      |
-| Touch SDA        | 33   | CST816S I2C          |
-| Touch SCL        | 32   |                      |
-| Touch INT        | 21   |                      |
-| Touch RST        | 25   |                      |
-| SD Card CS       | 5    |                      |
-| SD Card MOSI     | 23   |                      |
-| SD Card SCLK     | 18   |                      |
-| SD Card MISO     | 19   |                      |
-| RGB LED R        | 4    |                      |
-| RGB LED G        | 16    |                      |
-| RGB LED B        | 17    |                      |
-| CdS Light Sensor | 34   |                      |
-| Speaker          | 26   |                      |
-
----
-
-## ESP32-2432S024N (240x320, ILI9341)
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD SPI MOSI     | 13   | ILI9341 SPI          |
-| LCD SPI MISO     | 12   |                      |
-| LCD SPI SCLK     | 14   |                      |
-| LCD CS           | 15   |                      |
-| LCD DC           | 2    |                      |
-| Backlight        | 27   |                      |
-| SD Card CS       | 5    |                      |
-| SD Card MOSI     | 23   |                      |
-| SD Card SCLK     | 18   |                      |
-| SD Card MISO     | 19   |                      |
-| RGB LED R        | 4    |                      |
-| RGB LED G        | 16    |                      |
-| RGB LED B        | 17    |                      |
-| CdS Light Sensor | 34   |                      |
-| Speaker          | 26   |                      |
-
----
-
-## ESP32-2432S024R (240x320, ILI9341 + XPT2046)
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD SPI MOSI     | 13   | ILI9341 SPI          |
-| LCD SPI MISO     | 12   |                      |
-| LCD SPI SCLK     | 14   |                      |
-| LCD CS           | 15   |                      |
-| LCD DC           | 2    |                      |
-| Backlight        | 27   |                      |
-| Touch SPI MOSI   | 13   | XPT2046 SPI          |
-| Touch SPI MISO   | 12   |                      |
-| Touch SPI SCLK   | 14   |                      |
-| Touch CS         | 33   |                      |
-| Touch INT        | 36   |                      |
-| SD Card CS       | 5    |                      |
-| SD Card MOSI     | 23   |                      |
-| SD Card SCLK     | 18   |                      |
-| SD Card MISO     | 19   |                      |
-| RGB LED R        | 4    |                      |
-| RGB LED G        | 16    |                      |
-| RGB LED B        | 17    |                      |
-| CDS              | 34   |                      |
-| Speaker          | 26   |                      |
-
----
-
-## ESP32-8048S050R
-| Function         | GPIO | Notes                |
-|------------------|------|----------------------|
-| LCD HSYNC        | 39   | ST7262 RGB           |
-| LCD VSYNC        | 41   |                      |
-| LCD DE           | 40   |                      |
-| LCD PCLK         | 42   |                      |
-| LCD R0           | 8    |                      |
-| LCD R1           | 3    |                      |
-| LCD R2           | 46   |                      |
-| LCD R3           | 9    |                      |
-| LCD R4           | 1    |                      |
-| LCD G0           | 5    |                      |
-| LCD G1           | 6    |                      |
-| LCD G2           | 7    |                      |
-| LCD G3           | 15   |                      |
-| LCD G4           | 16   |                      |
-| LCD G5           | 4    |                      |
-| LCD B0           | 45   |                      |
-| LCD B1           | 48   |                      |
-| LCD B2           | 47   |                      |
-| LCD B3           | 21   |                      |
-| LCD B4           | 14   |                      |
-| Backlight        | 2    | GPIO_BCKL            |
-| Touch SPI MOSI   | 11   | XPT2046_SPI_BUS_MOSI |
-| Touch SPI MISO   | 13   | XPT2046_SPI_BUS_MISO |
-| Touch SPI SCLK   | 12   | XPT2046_SPI_BUS_SCLK |
-| Touch SPI CS     | 38   | XPT2046_SPI_CS       |
-| Touch INT        | 18   | XPT2046_TOUCH_INT    |
-| SD Card CS       | 10   | TF_CS                |
-| SD Card MOSI     | 11   | TF_SPI_MOSI          |
-| SD Card SCLK     | 12   | TF_SPI_SCLK          |
-| SD Card MISO     | 13   | TF_SPI_MISO          |
-
----
-
 ## ESP32-8048S070N
 | Function         | GPIO | Notes                |
 |------------------|------|----------------------|
@@ -1053,5 +901,236 @@ This document provides a summary of the display and touch controller pin mapping
 | Touch SCL        | 9    | GT911_I2C_SCL        |
 | Touch INT        | NC   | Not connected         |
 | Touch RST        | NC   | Not connected         |
+
+---
+
+## [PLACEHOLDER] ESP32-1732S019N
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| (Fill in pinout details from esp32-1732S019N.json) |
+
+---
+
+## ESP32-2424S012C (240x240, GC9A01A + CST816S)
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD SPI MOSI     | 7    | GC9A01A SPI          |
+| LCD SPI SCLK     | 6    |                      |
+| LCD CS           | 10   |                      |
+| LCD DC           | 2    |                      |
+| Backlight        | 3    |                      |
+| Touch SDA        | 4    | CST816S I2C          |
+| Touch SCL        | 5    |                      |
+| Touch INT        | 0    |                      |
+| Touch RST        | 1    |                      |
+
+---
+
+## ESP32-2424S012N (240x240, GC9A01A)
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD SPI MOSI     | 7    | GC9A01A SPI          |
+| LCD SPI SCLK     | 6    |                      |
+| LCD CS           | 10   |                      |
+| LCD DC           | 2    |                      |
+| Backlight        | 3    |                      |
+| Touch SDA        | 4    | CST816S I2C          |
+| Touch SCL        | 5    |                      |
+| Touch INT        | 0    |                      |
+| Touch RST        | 1    |                      |
+
+---
+
+## ESP32-2432S022C (240x320, ST7789 + CST816S)
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD I80 D8       | 15   | ST7789 I80           |
+| LCD I80 D9       | 13   |                      |
+| LCD I80 D10      | 12   |                      |
+| LCD I80 D11      | 14   |                      |
+| LCD I80 D12      | 27   |                      |
+| LCD I80 D13      | 25   |                      |
+| LCD I80 D14      | 33   |                      |
+| LCD I80 D15      | 32   |                      |
+| LCD I80 CS       | 17   |                      |
+| LCD I80 DC       | 16   |                      |
+| LCD I80 WR       | 4    |                      |
+| LCD RD           | 2    |                      |
+| Backlight        | 0    |                      |
+| Touch SDA        | 21   | CST816S I2C          |
+| Touch SCL        | 22   |                      |
+| SD Card CS       | 5    |                      |
+| SD Card MOSI     | 23   |                      |
+| SD Card SCLK     | 18   |                      |
+| SD Card MISO     | 19   |                      |
+| Speaker          | 26   |                      |
+
+---
+
+## ESP32-2432S022N (240x320, ST7789)
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD I80 D8       | 15   | ST7789 I80           |
+| LCD I80 D9       | 13   |                      |
+| LCD I80 D10      | 12   |                      |
+| LCD I80 D11      | 14   |                      |
+| LCD I80 D12      | 27   |                      |
+| LCD I80 D13      | 25   |                      |
+| LCD I80 D14      | 33   |                      |
+| LCD I80 D15      | 32   |                      |
+| LCD I80 CS       | 17   |                      |
+| LCD I80 DC       | 16   |                      |
+| LCD I80 WR       | 4    |                      |
+| LCD RD           | 2    |                      |
+| Backlight        | 0    |                      |
+| SD Card CS       | 5    |                      |
+| SD Card MOSI     | 23   |                      |
+| SD Card SCLK     | 18   |                      |
+| SD Card MISO     | 19   |                      |
+| Speaker          | 26   |                      |
+
+---
+
+## ESP32-2432S024C (240x320, ILI9341 + CST816S)
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD SPI MOSI     | 13   | ILI9341 SPI          |
+| LCD SPI MISO     | 12   |                      |
+| LCD SPI SCLK     | 14   |                      |
+| LCD CS           | 15   |                      |
+| LCD DC           | 2    |                      |
+| Backlight        | 27   |                      |
+| Touch SDA        | 33   | CST816S I2C          |
+| Touch SCL        | 32   |                      |
+| Touch INT        | 21   |                      |
+| Touch RST        | 25   |                      |
+| SD Card CS       | 5    |                      |
+| SD Card MOSI     | 23   |                      |
+| SD Card SCLK     | 18   |                      |
+| SD Card MISO     | 19   |                      |
+| RGB LED R        | 4    |                      |
+| RGB LED G        | 16   |                      |
+| RGB LED B        | 17   |                      |
+| CdS Light Sensor | 34   |                      |
+| Speaker          | 26   |                      |
+
+---
+
+## ESP32-2432S024N (240x320, ILI9341)
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD SPI MOSI     | 13   | ILI9341 SPI          |
+| LCD SPI MISO     | 12   |                      |
+| LCD SPI SCLK     | 14   |                      |
+| LCD CS           | 15   |                      |
+| LCD DC           | 2    |                      |
+| Backlight        | 27   |                      |
+| SD Card CS       | 5    |                      |
+| SD Card MOSI     | 23   |                      |
+| SD Card SCLK     | 18   |                      |
+| SD Card MISO     | 19   |                      |
+| RGB LED R        | 4    |                      |
+| RGB LED G        | 16   |                      |
+| RGB LED B        | 17   |                      |
+| CdS Light Sensor | 34   |                      |
+| Speaker          | 26   |                      |
+
+---
+
+## ESP32-2432S024R (240x320, ILI9341 + XPT2046)
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD SPI MOSI     | 13   | ILI9341 SPI          |
+| LCD SPI MISO     | 12   |                      |
+| LCD SPI SCLK     | 14   |                      |
+| LCD CS           | 15   |                      |
+| LCD DC           | 2    |                      |
+| Backlight        | 27   |                      |
+| Touch SPI MOSI   | 13   | XPT2046 SPI          |
+| Touch SPI MISO   | 12   |                      |
+| Touch SPI SCLK   | 14   |                      |
+| Touch CS         | 33   |                      |
+| Touch INT        | 36   |                      |
+| SD Card CS       | 5    |                      |
+| SD Card MOSI     | 23   |                      |
+| SD Card SCLK     | 18   |                      |
+| SD Card MISO     | 19   |                      |
+| RGB LED R        | 4    |                      |
+| RGB LED G        | 16   |                      |
+| RGB LED B        | 17   |                      |
+| CDS              | 34   |                      |
+| Speaker          | 26   |                      |
+
+---
+
+## ESP32-8048S050R
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD HSYNC        | 39   | ST7262 RGB           |
+| LCD VSYNC        | 41   |                      |
+| LCD DE           | 40   |                      |
+| LCD PCLK         | 42   |                      |
+| LCD R0           | 8    |                      |
+| LCD R1           | 3    |                      |
+| LCD R2           | 46   |                      |
+| LCD R3           | 9    |                      |
+| LCD R4           | 1    |                      |
+| LCD G0           | 5    |                      |
+| LCD G1           | 6    |                      |
+| LCD G2           | 7    |                      |
+| LCD G3           | 15   |                      |
+| LCD G4           | 16   |                      |
+| LCD G5           | 4    |                      |
+| LCD B0           | 45   |                      |
+| LCD B1           | 48   |                      |
+| LCD B2           | 47   |                      |
+| LCD B3           | 21   |                      |
+| LCD B4           | 14   |                      |
+| Backlight        | 2    | GPIO_BCKL            |
+| Touch SPI MOSI   | 11   | XPT2046_SPI_BUS_MOSI |
+| Touch SPI MISO   | 13   | XPT2046_SPI_BUS_MISO |
+| Touch SPI SCLK   | 12   | XPT2046_SPI_BUS_SCLK |
+| Touch SPI CS     | 38   | XPT2046_SPI_CS       |
+| Touch INT        | 18   | XPT2046_TOUCH_INT    |
+| SD Card CS       | 10   | TF_CS                |
+| SD Card MOSI     | 11   | TF_SPI_MOSI          |
+| SD Card SCLK     | 12   | TF_SPI_SCLK          |
+| SD Card MISO     | 13   | TF_SPI_MISO          |
+
+---
+
+## ESP32-8048S070R
+| Function         | GPIO | Notes                |
+|------------------|------|----------------------|
+| LCD HSYNC        | 39   | ST7262 RGB           |
+| LCD VSYNC        | 40   |                      |
+| LCD DE           | 41   |                      |
+| LCD PCLK         | 42   |                      |
+| LCD R0           | 15   |                      |
+| LCD R1           | 7    |                      |
+| LCD R2           | 6    |                      |
+| LCD R3           | 5    |                      |
+| LCD R4           | 4    |                      |
+| LCD G0           | 9    |                      |
+| LCD G1           | 46   |                      |
+| LCD G2           | 3    |                      |
+| LCD G3           | 8    |                      |
+| LCD G4           | 16   |                      |
+| LCD G5           | 1    |                      |
+| LCD B0           | 14   |                      |
+| LCD B1           | 21   |                      |
+| LCD B2           | 47   |                      |
+| LCD B3           | 48   |                      |
+| LCD B4           | 45   |                      |
+| Backlight        | 2    | GPIO_BCKL            |
+| Touch SPI MOSI   | 11   | XPT2046_SPI_BUS_MOSI |
+| Touch SPI MISO   | 13   | XPT2046_SPI_BUS_MISO |
+| Touch SPI SCLK   | 12   | XPT2046_SPI_BUS_SCLK |
+| Touch SPI CS     | 38   | XPT2046_SPI_CS       |
+| Touch INT        | 18   | XPT2046_TOUCH_INT    |
+| SD Card CS       | 10   | TF_CS                |
+| SD Card MOSI     | 11   | TF_SPI_MOSI          |
+| SD Card SCLK     | 12   | TF_SPI_SCLK          |
+| SD Card MISO     | 13   | TF_SPI_MISO          |
 
 ---
