@@ -68,8 +68,8 @@ static void touch_read_cb(lv_indev_drv_t *indev_drv, lv_indev_data_t *data) {
     tp.read();
     bool touched = tp.isTouched;
     if (touched && tp.touches > 0) {
-        data->point.x = tp.points[0].x;
-        data->point.y = tp.points[0].y;
+        data->point.x = TOUCH_WIDTH - 1 - tp.points[0].x; // Flip X axis
+        data->point.y = TOUCH_HEIGHT - 1 - tp.points[0].y; // Flip Y axis
         data->state = LV_INDEV_STATE_PRESSED;
         char buf[32];
         snprintf(buf, sizeof(buf), "Touch: %d,%d", data->point.x, data->point.y);

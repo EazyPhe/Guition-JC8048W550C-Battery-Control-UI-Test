@@ -88,6 +88,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_align(ui_Button1, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_add_flag(ui_Button1, LV_OBJ_FLAG_CLICKABLE); // Ensure clickable
 
     ui_Label1 = lv_label_create(ui_Button1);
     lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
@@ -101,6 +102,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_align(ui_Button2, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button2, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_add_flag(ui_Button2, LV_OBJ_FLAG_CLICKABLE); // Ensure clickable
 
     ui_Label2 = lv_label_create(ui_Button2);
     lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
@@ -114,6 +116,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_align(ui_Button3, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button3, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button3, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_add_flag(ui_Button3, LV_OBJ_FLAG_CLICKABLE); // Ensure clickable
 
     ui_Label3 = lv_label_create(ui_Button3);
     lv_obj_set_width(ui_Label3, LV_SIZE_CONTENT);   /// 1
@@ -127,6 +130,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_align(ui_Button4, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button4, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button4, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_add_flag(ui_Button4, LV_OBJ_FLAG_CLICKABLE); // Ensure clickable
 
     ui_Label4 = lv_label_create(ui_Button4);
     lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
@@ -140,6 +144,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_align(ui_Button5, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button5, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button5, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_add_flag(ui_Button5, LV_OBJ_FLAG_CLICKABLE); // Ensure clickable
 
     ui_Label5 = lv_label_create(ui_Button5);
     lv_obj_set_width(ui_Label5, LV_SIZE_CONTENT);   /// 1
