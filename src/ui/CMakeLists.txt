@@ -1,5 +1,8 @@
-SET(SOURCES screens/ui_Screen1.c
-    screens/ui_Screen2.c
+SET(SOURCES screens/ui_Home_Screen.c
+    screens/ui_Monitor_Screen.c
+    screens/ui_Control_Screen.c
+    screens/ui_Settings_Screen.c
+    screens/ui_Analysis_Screen.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
