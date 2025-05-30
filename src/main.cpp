@@ -7,6 +7,7 @@
 #include "diagnostics.h"
 #include "ui_compat.h" // Include compatibility layer first
 #include "ui/ui.h"     // Then include the SquareLine UI
+#include "ui_optimization.h" // Include UI optimizations
 
 // FreeRTOS includes for ESP32
 #include "freertos/FreeRTOS.h"
@@ -24,9 +25,14 @@
 #define GT911_SDA_PIN  19
 #define GT911_SCL_PIN  20
 
-// LVGL Buffer configuration
-#define LVGL_BUFFER_PIXELS (DISPLAY_WIDTH * 40) // 40 lines buffer
+// LVGL Buffer configuration - OPTIMIZED
+#define LVGL_BUFFER_PIXELS (DISPLAY_WIDTH * 60) // Increased to 60 lines for better performance
 #define LVGL_MALLOC_FLAGS (MALLOC_CAP_INTERNAL | MALLOC_CAP_DMA)
+
+// Performance optimization settings
+#define LVGL_TASK_DELAY_MS 10    // Reduced from 5ms to 10ms for less CPU usage
+#define TARGET_FPS 30            // Target 30 FPS for smooth UI
+#define FRAME_TIME_MS (1000 / TARGET_FPS)
 
 // Touch controller
 TAMC_GT911 tp(GT911_SDA_PIN, GT911_SCL_PIN, GT911_INT_PIN, GT911_RST_PIN, TOUCH_WIDTH, TOUCH_HEIGHT);
@@ -40,26 +46,56 @@ static lv_indev_t *indev_touch;
 static lv_obj_t *label;
 static lv_obj_t *touch_point;
 
+// Performance monitoring variables
+static uint32_t last_frame_time = 0;
+static uint32_t frame_count = 0;
+static uint32_t fps_counter = 0;
+
 // Operating mode
 enum DisplayMode {
     MODE_DEMO,       // Demo UI with touch indicator
     MODE_SQUARELINE  // SquareLine UI
 };
 
+// Screen management for lazy loading
+static bool screen_initialized[SCREEN_COUNT] = {false};
+static ui_screen_t current_screen_id = SCREEN_HOME;
+
 static DisplayMode currentMode = MODE_SQUARELINE;
 static lv_style_t style_touch_point;
 
-// Display flush callback for LVGL 8.x
+// Display flush callback for LVGL 8.x - OPTIMIZED
 static void display_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p) {
+    // Frame rate limiting
+    uint32_t current_time = millis();
+    uint32_t elapsed = current_time - last_frame_time;
+    
+    if (elapsed < FRAME_TIME_MS) {
+        // Skip frame if running too fast
+        lv_disp_flush_ready(disp_drv);
+        return;
+    }
+    
     if (panel_handle) {
         esp_lcd_panel_draw_bitmap(panel_handle, area->x1, area->y1, area->x2 + 1, area->y2 + 1, color_p);
     } else {
         Serial.println("ERROR: No panel handle available");
     }
+    
     lv_disp_flush_ready(disp_drv);
-    static uint32_t flush_count = 0;
-    if (++flush_count % 100 == 0) {
-        Serial.printf("Display flush %d\n", flush_count);
+    
+    // Performance monitoring
+    last_frame_time = current_time;
+    frame_count++;
+    ui_performance_update();
+    
+    // Print FPS every 30 frames
+    if (frame_count % 30 == 0) {
+        fps_counter++;
+        if (fps_counter % 10 == 0) { // Print every 300 frames (10 seconds at 30fps)
+            uint32_t fps = elapsed > 0 ? (30000 / elapsed) : 999;
+            Serial.printf("Display FPS: ~%d, Frame: %d\n", fps, frame_count);
+        }
     }
 }
 
@@ -168,7 +204,7 @@ void lvgl_tick_task(TimerHandle_t xTimer) {
 void lvgl_task(void *pvParameter) {
     while (1) {
         lv_timer_handler();
-        vTaskDelay(pdMS_TO_TICKS(5)); // 5ms for smooth UI
+        vTaskDelay(pdMS_TO_TICKS(LVGL_TASK_DELAY_MS)); // 10ms for smooth UI
     }
 }
 
@@ -219,15 +255,10 @@ void setup() {
     lv_indev_drv_init(&indev_drv);
     indev_drv.type = LV_INDEV_TYPE_POINTER;
     indev_drv.read_cb = touch_read_cb;
-    indev_touch = lv_indev_drv_register(&indev_drv);
-    // Initialize UI based on current mode
-    // if (currentMode == MODE_DEMO) {
-    //     create_simple_ui();
-    //     Serial.println("Demo UI initialized");
-    // } else {
-        ui_init();
-        Serial.println("SquareLine UI initialized");
-    // }
+    indev_touch = lv_indev_drv_register(&indev_drv);    // Initialize UI with optimized lazy loading
+    ui_optimized_init();
+    ui_performance_init();
+    Serial.println("Optimized SquareLine UI initialized");
     Serial.println("Setup complete");
 
     // --- Start FreeRTOS LVGL tick timer (1ms) ---
