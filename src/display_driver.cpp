@@ -5,11 +5,10 @@ esp_lcd_panel_handle_t panel_handle = NULL;
 
 esp_lcd_panel_handle_t lcd_panel_init(void) {
     Serial.println("Initializing LCD panel...");
-    
-    esp_lcd_rgb_panel_config_t panel_config = {
+      esp_lcd_rgb_panel_config_t panel_config = {
         .clk_src = LCD_CLK_SRC_PLL160M,
         .timings = {
-            .pclk_hz = (16 * 1000000), // 16MHz pixel clock (matches Clocky)
+            .pclk_hz = (20 * 1000000), // Increased to 20MHz for better performance
             .h_res = 800,
             .v_res = 480,
             .hsync_pulse_width = 4,
@@ -27,7 +26,7 @@ esp_lcd_panel_handle_t lcd_panel_init(void) {
             },
         },
         .data_width = 16, // RGB565 (16-bit)
-        .sram_trans_align = 4,
+        .sram_trans_align = 8,    // Increased for better alignment
         .psram_trans_align = 64,
         .hsync_gpio_num = 39,
         .vsync_gpio_num = 41,
