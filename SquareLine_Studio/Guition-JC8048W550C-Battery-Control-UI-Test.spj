@@ -3588,6 +3588,33 @@
                             "strtype": "BUTTON/Style_main",
                             "strval": "lv.PART.MAIN, Rectangle, Pad, Text, Transform",
                             "InheritedType": 11
+                          },
+                          {
+                            "disabled": false,
+                            "nid": 1000446,
+                            "strtype": "_event/EventHandler",
+                            "strval": "PRESSED",
+                            "childs": [
+                              {
+                                "nid": 1000447,
+                                "strtype": "_event/name",
+                                "strval": "Event2",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 1000448,
+                                "strtype": "_event/condition_C",
+                                "strval": "",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 1000449,
+                                "strtype": "_event/condition_P",
+                                "strval": "",
+                                "InheritedType": 10
+                              }
+                            ],
+                            "InheritedType": 4
                           }
                         ],
                         "saved_objtypeKey": "BUTTON"
@@ -4654,8 +4681,7 @@
                     "InheritedType": 11
                   }
                 ],
-                "saved_objtypeKey": "PANEL",
-                "tree_closed": true
+                "saved_objtypeKey": "PANEL"
               }
             ],
             "dont_export": false,
@@ -23185,7 +23211,7 @@
     "naming": "Name",
     "naming_force_lowercase": false,
     "naming_add_subcomponent": false,
-    "nidcnt": 1000446,
+    "nidcnt": 1000450,
     "BitDepth": 16,
     "Name": "Display_Test"
   }

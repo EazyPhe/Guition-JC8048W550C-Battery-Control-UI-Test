@@ -17,16 +17,14 @@
 #define LV_MEM_CUSTOM_ALLOC     malloc
 #define LV_MEM_CUSTOM_FREE      free
 #define LV_MEM_CUSTOM_REALLOC   realloc
+#define LV_MEM_SIZE             (32U * 1024U) // 32KB, increase if you see allocation errors
 
-// Enable GPU (all disabled for ESP32S3 compatibility)
-#define LV_USE_GPU              0
-#define LV_USE_GPU_STM32_DMA2D  0
-#define LV_USE_GPU_NXP_PXP      0
-#define LV_USE_GPU_NXP_VG_LITE  0
+// Image cache
+#define LV_IMG_CACHE_DEF_SIZE   1 // Only cache 1 image, set to 0 if not needed
 
 // Logging
-#define LV_USE_LOG              1
-#define LV_LOG_LEVEL            LV_LOG_LEVEL_WARN
+#define LV_USE_LOG              0 // Disable logging for release
+// #define LV_LOG_LEVEL         LV_LOG_LEVEL_WARN // Not needed if logging is off
 
 // Input device settings
 #define LV_INDEV_DEF_READ_PERIOD            30

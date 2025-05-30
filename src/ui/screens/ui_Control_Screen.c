@@ -12,7 +12,7 @@ lv_obj_t * ui_Label27;
 lv_obj_t * ui_Switch2;
 lv_obj_t * ui_Button14;
 lv_obj_t * ui_PWM_Label;
-lv_obj_t * ui_Slider2;
+lv_obj_t * ui_relay1slider;
 lv_obj_t * ui_Panel7;
 lv_obj_t * ui_Label44;
 lv_obj_t * ui_Switch3;
@@ -48,6 +48,15 @@ lv_obj_t * ui_Button21;
 lv_obj_t * ui_Label34;
 
 // event funtions
+void ui_event_Button32(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_state_modify(ui_Label42, LV_STATE_CHECKED, _UI_MODIFY_STATE_ADD);
+    }
+}
+
 void ui_event_Button17(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -142,8 +151,10 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_width(ui_Button14, 66);
     lv_obj_set_height(ui_Button14, 28);
     lv_obj_set_align(ui_Button14, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button14, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_add_flag(ui_Button14, LV_OBJ_FLAG_CHECKABLE | LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button14, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button14, lv_color_hex(0xF6BD00), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button14, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_PWM_Label = lv_label_create(ui_Button14);
     lv_obj_set_width(ui_PWM_Label, LV_SIZE_CONTENT);   /// 1
@@ -151,14 +162,16 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_align(ui_PWM_Label, LV_ALIGN_CENTER);
     lv_label_set_text(ui_PWM_Label, "PWM");
 
-    ui_Slider2 = lv_slider_create(ui_Panel1);
-    lv_slider_set_value(ui_Slider2, 0, LV_ANIM_OFF);
-    if(lv_slider_get_mode(ui_Slider2) == LV_SLIDER_MODE_RANGE) lv_slider_set_left_value(ui_Slider2, 0, LV_ANIM_OFF);
-    lv_obj_set_width(ui_Slider2, 150);
-    lv_obj_set_height(ui_Slider2, 10);
-    lv_obj_set_x(ui_Slider2, -108);
-    lv_obj_set_y(ui_Slider2, -124);
-    lv_obj_set_align(ui_Slider2, LV_ALIGN_CENTER);
+    ui_relay1slider = lv_slider_create(ui_Panel1);
+    lv_slider_set_value(ui_relay1slider, 0, LV_ANIM_OFF);
+    if(lv_slider_get_mode(ui_relay1slider) == LV_SLIDER_MODE_RANGE) lv_slider_set_left_value(ui_relay1slider, 0,
+                                                                                                 LV_ANIM_OFF);
+    lv_obj_set_width(ui_relay1slider, 150);
+    lv_obj_set_height(ui_relay1slider, 10);
+    lv_obj_set_x(ui_relay1slider, -108);
+    lv_obj_set_y(ui_relay1slider, -124);
+    lv_obj_set_align(ui_relay1slider, LV_ALIGN_CENTER);
+    lv_obj_add_state(ui_relay1slider, LV_STATE_DISABLED);       /// States
 
     ui_Panel7 = lv_obj_create(ui_Container3);
     lv_obj_set_width(ui_Panel7, 686);
@@ -188,8 +201,10 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_width(ui_Button31, 66);
     lv_obj_set_height(ui_Button31, 28);
     lv_obj_set_align(ui_Button31, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button31, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_add_flag(ui_Button31, LV_OBJ_FLAG_CHECKABLE | LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button31, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button31, lv_color_hex(0xF6BD00), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button31, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_PWM_Label1 = lv_label_create(ui_Button31);
     lv_obj_set_width(ui_PWM_Label1, LV_SIZE_CONTENT);   /// 1
@@ -234,14 +249,18 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_width(ui_Button32, 66);
     lv_obj_set_height(ui_Button32, 28);
     lv_obj_set_align(ui_Button32, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button32, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_add_flag(ui_Button32, LV_OBJ_FLAG_CHECKABLE | LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button32, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button32, lv_color_hex(0xF6BD00), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button32, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_PWM_Label2 = lv_label_create(ui_Button32);
     lv_obj_set_width(ui_PWM_Label2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_PWM_Label2, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_PWM_Label2, LV_ALIGN_CENTER);
     lv_label_set_text(ui_PWM_Label2, "PWM");
+    lv_obj_set_style_bg_color(ui_PWM_Label2, lv_color_hex(0xF6BD00), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_PWM_Label2, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_Slider4 = lv_slider_create(ui_Panel8);
     lv_slider_set_value(ui_Slider4, 0, LV_ANIM_OFF);
@@ -280,8 +299,10 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_width(ui_Button33, 66);
     lv_obj_set_height(ui_Button33, 28);
     lv_obj_set_align(ui_Button33, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button33, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_add_flag(ui_Button33, LV_OBJ_FLAG_CHECKABLE | LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button33, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button33, lv_color_hex(0xF6BD00), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button33, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_PWM_Label3 = lv_label_create(ui_Button33);
     lv_obj_set_width(ui_PWM_Label3, LV_SIZE_CONTENT);   /// 1
@@ -424,6 +445,7 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_align(ui_Label34, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label34, "Settings");
 
+    lv_obj_add_event_cb(ui_Button32, ui_event_Button32, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button17, ui_event_Button17, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button18, ui_event_Button18, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button19, ui_event_Button19, LV_EVENT_ALL, NULL);
@@ -444,7 +466,7 @@ void ui_Control_Screen_screen_destroy(void)
     ui_Switch2 = NULL;
     ui_Button14 = NULL;
     ui_PWM_Label = NULL;
-    ui_Slider2 = NULL;
+    ui_relay1slider = NULL;
     ui_Panel7 = NULL;
     ui_Label44 = NULL;
     ui_Switch3 = NULL;

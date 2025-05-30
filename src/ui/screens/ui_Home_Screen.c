@@ -48,6 +48,7 @@ lv_obj_t * ui_Bar1;
 lv_obj_t * ui_Label11;
 lv_obj_t * ui_Label12;
 lv_obj_t * ui_Label13;
+lv_obj_t * ui_Label29;
 
 // event funtions
 void ui_event_Button1(lv_event_t * e)
@@ -95,6 +96,15 @@ void ui_event_Button5(lv_event_t * e)
 
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Settings_Screen, LV_SCR_LOAD_ANIM_NONE, 500, 0, &ui_Settings_Screen_screen_init);
+    }
+}
+
+void ui_event_Panel3(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Control_Screen, LV_SCR_LOAD_ANIM_NONE, 500, 0, &ui_Control_Screen_screen_init);
     }
 }
 
@@ -217,7 +227,7 @@ void ui_Home_Screen_screen_init(void)
     lv_obj_set_width(ui_Spinner1, 50);
     lv_obj_set_height(ui_Spinner1, 50);
     lv_obj_set_x(ui_Spinner1, 0);
-    lv_obj_set_y(ui_Spinner1, 125);
+    lv_obj_set_y(ui_Spinner1, 110);
     lv_obj_set_align(ui_Spinner1, LV_ALIGN_CENTER);
     lv_obj_clear_flag(ui_Spinner1, LV_OBJ_FLAG_CLICKABLE);      /// Flags
 
@@ -299,11 +309,15 @@ void ui_Home_Screen_screen_init(void)
     lv_obj_clear_flag(ui_Panel6, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_Button6 = lv_btn_create(ui_Panel6);
-    lv_obj_set_width(ui_Button6, 27);
-    lv_obj_set_height(ui_Button6, 14);
+    lv_obj_set_width(ui_Button6, 30);
+    lv_obj_set_height(ui_Button6, 15);
     lv_obj_set_align(ui_Button6, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button6, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_add_flag(ui_Button6, LV_OBJ_FLAG_CHECKABLE | LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button6, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button6, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Button6, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Button6, lv_color_hex(0x00C600), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button6, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_Label19 = lv_label_create(ui_Button6);
     lv_obj_set_width(ui_Label19, LV_SIZE_CONTENT);   /// 1
@@ -312,11 +326,15 @@ void ui_Home_Screen_screen_init(void)
     lv_label_set_text(ui_Label19, "1");
 
     ui_Button7 = lv_btn_create(ui_Panel6);
-    lv_obj_set_width(ui_Button7, 27);
-    lv_obj_set_height(ui_Button7, 14);
+    lv_obj_set_width(ui_Button7, 30);
+    lv_obj_set_height(ui_Button7, 15);
     lv_obj_set_align(ui_Button7, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button7, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button7, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button7, lv_color_hex(0xFC0303), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Button7, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Button7, lv_color_hex(0x00C600), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button7, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_Label20 = lv_label_create(ui_Button7);
     lv_obj_set_width(ui_Label20, LV_SIZE_CONTENT);   /// 1
@@ -325,11 +343,15 @@ void ui_Home_Screen_screen_init(void)
     lv_label_set_text(ui_Label20, "2");
 
     ui_Button8 = lv_btn_create(ui_Panel6);
-    lv_obj_set_width(ui_Button8, 27);
-    lv_obj_set_height(ui_Button8, 14);
+    lv_obj_set_width(ui_Button8, 30);
+    lv_obj_set_height(ui_Button8, 15);
     lv_obj_set_align(ui_Button8, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button8, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button8, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button8, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Button8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Button8, lv_color_hex(0x00C600), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button8, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_Label21 = lv_label_create(ui_Button8);
     lv_obj_set_width(ui_Label21, LV_SIZE_CONTENT);   /// 1
@@ -338,11 +360,15 @@ void ui_Home_Screen_screen_init(void)
     lv_label_set_text(ui_Label21, "3");
 
     ui_Button9 = lv_btn_create(ui_Panel6);
-    lv_obj_set_width(ui_Button9, 27);
-    lv_obj_set_height(ui_Button9, 14);
+    lv_obj_set_width(ui_Button9, 30);
+    lv_obj_set_height(ui_Button9, 15);
     lv_obj_set_align(ui_Button9, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Button9, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_Button9, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Button9, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Button9, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Button9, lv_color_hex(0x00C600), LV_PART_MAIN | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(ui_Button9, 255, LV_PART_MAIN | LV_STATE_CHECKED);
 
     ui_Label22 = lv_label_create(ui_Button9);
     lv_obj_set_width(ui_Label22, LV_SIZE_CONTENT);   /// 1
@@ -446,11 +472,20 @@ void ui_Home_Screen_screen_init(void)
     lv_obj_set_style_text_color(ui_Label13, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Label13, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_Label29 = lv_label_create(ui_Home_Screen);
+    lv_obj_set_width(ui_Label29, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label29, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label29, 0);
+    lv_obj_set_y(ui_Label29, 155);
+    lv_obj_set_align(ui_Label29, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label29, "Connecting to controller...");
+
     lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button2, ui_event_Button2, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button3, ui_event_Button3, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button4, ui_event_Button4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button5, ui_event_Button5, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Panel3, ui_event_Panel3, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Panel5, ui_event_Panel5, LV_EVENT_ALL, NULL);
 
 }
@@ -503,5 +538,6 @@ void ui_Home_Screen_screen_destroy(void)
     ui_Label11 = NULL;
     ui_Label12 = NULL;
     ui_Label13 = NULL;
+    ui_Label29 = NULL;
 
 }

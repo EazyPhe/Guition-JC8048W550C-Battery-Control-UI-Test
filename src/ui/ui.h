@@ -24,8 +24,6 @@ extern "C" {
 
 #include "ui_helpers.h"
 #include "ui_events.h"
-#include "lv_font_montserrat_20.h"
-#include "lv_font_montserrat_40.h"
 
 ///////////////////// SCREENS ////////////////////
 
