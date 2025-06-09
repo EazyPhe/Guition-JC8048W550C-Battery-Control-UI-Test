@@ -14,10 +14,18 @@
 #include "freertos/timers.h"
 
 // Display and touch configuration
+#ifndef TOUCH_WIDTH
 #define TOUCH_WIDTH    800
+#endif
+#ifndef TOUCH_HEIGHT
 #define TOUCH_HEIGHT   480
+#endif
+#ifndef DISPLAY_WIDTH
 #define DISPLAY_WIDTH  TOUCH_WIDTH
+#endif
+#ifndef DISPLAY_HEIGHT
 #define DISPLAY_HEIGHT TOUCH_HEIGHT
+#endif
 #define GT911_I2C_ADDR 0x5D
 #define GT911_INT_PIN  18
 #define GT911_RST_PIN  38
@@ -25,8 +33,12 @@
 #define GT911_SCL_PIN  20
 
 // LVGL Buffer configuration
+#ifndef LVGL_BUFFER_PIXELS
 #define LVGL_BUFFER_PIXELS (DISPLAY_WIDTH * 40) // 40 lines buffer
+#endif
+#ifndef LVGL_MALLOC_FLAGS
 #define LVGL_MALLOC_FLAGS (MALLOC_CAP_INTERNAL | MALLOC_CAP_DMA)
+#endif
 
 // Touch controller
 TAMC_GT911 tp(GT911_SDA_PIN, GT911_SCL_PIN, GT911_INT_PIN, GT911_RST_PIN, TOUCH_WIDTH, TOUCH_HEIGHT);
