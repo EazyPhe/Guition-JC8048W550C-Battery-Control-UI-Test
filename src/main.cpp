@@ -25,20 +25,20 @@
 #define GT911_SDA_PIN  19
 #define GT911_SCL_PIN  20
 
-// LVGL Buffer configuration - OPTIMIZED
-#define LVGL_BUFFER_PIXELS (DISPLAY_WIDTH * 60) // Increased to 60 lines for better performance
-#define LVGL_MALLOC_FLAGS (MALLOC_CAP_INTERNAL | MALLOC_CAP_DMA)
-
-// Performance optimization settings
-#define LVGL_TASK_DELAY_MS 10    // Reduced from 5ms to 10ms for less CPU usage
-#define TARGET_FPS 30            // Target 30 FPS for smooth UI
-#define FRAME_TIME_MS (1000 / TARGET_FPS)
+// LVGL Buffer configuration
+#ifndef LVGL_BUFFER_PIXELS
+#define LVGL_BUFFER_PIXELS (DISPLAY_WIDTH * DISPLAY_HEIGHT) // Full screen buffer
+#endif
+#ifndef LVGL_MALLOC_FLAGS
+#define LVGL_MALLOC_FLAGS (MALLOC_CAP_SPIRAM)
+#endif
 
 // Touch controller
 TAMC_GT911 tp(GT911_SDA_PIN, GT911_SCL_PIN, GT911_INT_PIN, GT911_RST_PIN, TOUCH_WIDTH, TOUCH_HEIGHT);
 
 // LVGL variables
-static lv_color_t *buf;
+static lv_color_t *buf1;
+static lv_color_t *buf2;
 static lv_disp_t *display;
 static lv_indev_t *indev_touch;
 
@@ -83,20 +83,6 @@ static void display_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_
     }
     
     lv_disp_flush_ready(disp_drv);
-    
-    // Performance monitoring
-    last_frame_time = current_time;
-    frame_count++;
-    ui_performance_update();
-    
-    // Print FPS every 30 frames
-    if (frame_count % 30 == 0) {
-        fps_counter++;
-        if (fps_counter % 10 == 0) { // Print every 300 frames (10 seconds at 30fps)
-            uint32_t fps = elapsed > 0 ? (30000 / elapsed) : 999;
-            Serial.printf("Display FPS: ~%d, Frame: %d\n", fps, frame_count);
-        }
-    }
 }
 
 // Touch read callback for LVGL 8.x
@@ -204,7 +190,7 @@ void lvgl_tick_task(TimerHandle_t xTimer) {
 void lvgl_task(void *pvParameter) {
     while (1) {
         lv_timer_handler();
-        vTaskDelay(pdMS_TO_TICKS(LVGL_TASK_DELAY_MS)); // 10ms for smooth UI
+        vTaskDelay(pdMS_TO_TICKS(1)); // Increase frequency for smoother UI
     }
 }
 
@@ -234,15 +220,21 @@ void setup() {
     lv_init();
     Serial.println("LVGL initialized");
     uint32_t buf_size = LVGL_BUFFER_PIXELS;
-    buf = (lv_color_t *)heap_caps_malloc(buf_size * sizeof(lv_color_t), LVGL_MALLOC_FLAGS);
-    if (!buf) {
-        Serial.println("ERROR: Failed to allocate LVGL buffer!");
+    size_t bytes_needed = buf_size * sizeof(lv_color_t);
+    Serial.printf("[LVGL] Buffer request: %u pixels, %u bytes (per buffer)\n", buf_size, (unsigned int)bytes_needed);
+    Serial.printf("[LVGL] Allocation flags: 0x%08X\n", (unsigned int)LVGL_MALLOC_FLAGS);
+    buf1 = (lv_color_t *)heap_caps_malloc(bytes_needed, LVGL_MALLOC_FLAGS);
+    buf2 = (lv_color_t *)heap_caps_malloc(bytes_needed, LVGL_MALLOC_FLAGS);
+    Serial.printf("[LVGL] Buffer1 pointer: %p\n", buf1);
+    Serial.printf("[LVGL] Buffer2 pointer: %p\n", buf2);
+    if (!buf1 || !buf2) {
+        Serial.println("ERROR: Failed to allocate both LVGL buffers for double buffering!");
         while (1) delay(100);
     }
-    Serial.printf("LVGL buffer allocated: %d pixels\n", buf_size);
+    Serial.printf("LVGL double buffers allocated: %d pixels each\n", buf_size);
     // LVGL 8.x display driver setup
     static lv_disp_draw_buf_t draw_buf;
-    lv_disp_draw_buf_init(&draw_buf, buf, NULL, buf_size);
+    lv_disp_draw_buf_init(&draw_buf, buf1, buf2, buf_size);
     static lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
     disp_drv.hor_res = DISPLAY_WIDTH;

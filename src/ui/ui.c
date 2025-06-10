@@ -5,6 +5,7 @@
 
 #include "ui.h"
 #include "ui_helpers.h"
+#include "../ui_chart_init.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -36,14 +37,22 @@ void ui_init(void)
     ui_Home_Screen_screen_init();
     ui_Monitor_Screen_screen_init();
     ui_Control_Screen_screen_init();
-    ui_Settings_Screen_screen_init();
-    ui_Analysis_Screen_screen_init();
+    ui_Settings_Screen_screen_init();    ui_Analysis_Screen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Home_Screen);
+    
+    // Initialize charts for real-time data streaming
+    ui_charts_init_realtime();
+    
+    // Start real-time updates after a short delay to ensure all screens are loaded
+    ui_charts_start_realtime();
 }
 
 void ui_destroy(void)
 {
+    // Stop chart updates before destroying UI
+    ui_charts_stop_realtime();
+    
     ui_Home_Screen_screen_destroy();
     ui_Monitor_Screen_screen_destroy();
     ui_Control_Screen_screen_destroy();

@@ -320,13 +320,9 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_y(ui_Chart5, -185);
     lv_obj_set_align(ui_Chart5, LV_ALIGN_CENTER);
     lv_chart_set_type(ui_Chart5, LV_CHART_TYPE_LINE);
-    lv_chart_set_axis_tick(ui_Chart5, LV_CHART_AXIS_PRIMARY_X, 10, 5, 5, 2, true, 50);
-    lv_chart_set_axis_tick(ui_Chart5, LV_CHART_AXIS_PRIMARY_Y, 10, 5, 5, 2, true, 50);
+    lv_chart_set_axis_tick(ui_Chart5, LV_CHART_AXIS_PRIMARY_X, 10, 5, 5, 2, true, 50);    lv_chart_set_axis_tick(ui_Chart5, LV_CHART_AXIS_PRIMARY_Y, 10, 5, 5, 2, true, 50);
     lv_chart_set_axis_tick(ui_Chart5, LV_CHART_AXIS_SECONDARY_Y, 10, 5, 5, 2, true, 25);
-    lv_chart_series_t * ui_Chart5_series_1 = lv_chart_add_series(ui_Chart5, lv_color_hex(0x808080),
-                                                                 LV_CHART_AXIS_PRIMARY_Y);
-    static lv_coord_t ui_Chart5_series_1_array[] = { 0, 10, 20, 40, 80, 80, 40, 20, 10, 0 };
-    lv_chart_set_ext_y_array(ui_Chart5, ui_Chart5_series_1, ui_Chart5_series_1_array);
+    // Chart data will be managed by chart_data_manager - no static arrays needed
 
     ui_Chart6 = lv_chart_create(ui_Control_Screen);
     lv_obj_set_width(ui_Chart6, 170);
@@ -335,13 +331,9 @@ void ui_Control_Screen_screen_init(void)
     lv_obj_set_y(ui_Chart6, -185);
     lv_obj_set_align(ui_Chart6, LV_ALIGN_CENTER);
     lv_chart_set_type(ui_Chart6, LV_CHART_TYPE_LINE);
-    lv_chart_set_axis_tick(ui_Chart6, LV_CHART_AXIS_PRIMARY_X, 10, 5, 5, 2, true, 50);
-    lv_chart_set_axis_tick(ui_Chart6, LV_CHART_AXIS_PRIMARY_Y, 10, 5, 5, 2, true, 50);
+    lv_chart_set_axis_tick(ui_Chart6, LV_CHART_AXIS_PRIMARY_X, 10, 5, 5, 2, true, 50);    lv_chart_set_axis_tick(ui_Chart6, LV_CHART_AXIS_PRIMARY_Y, 10, 5, 5, 2, true, 50);
     lv_chart_set_axis_tick(ui_Chart6, LV_CHART_AXIS_SECONDARY_Y, 10, 5, 5, 2, true, 25);
-    lv_chart_series_t * ui_Chart6_series_1 = lv_chart_add_series(ui_Chart6, lv_color_hex(0x808080),
-                                                                 LV_CHART_AXIS_PRIMARY_Y);
-    static lv_coord_t ui_Chart6_series_1_array[] = { 0, 10, 20, 40, 80, 80, 40, 20, 10, 0 };
-    lv_chart_set_ext_y_array(ui_Chart6, ui_Chart6_series_1, ui_Chart6_series_1_array);
+    // Chart data will be managed by chart_data_manager - no static arrays needed
 
     ui_Navigation_Bar3 = lv_obj_create(ui_Control_Screen);
     lv_obj_set_width(ui_Navigation_Bar3, 836);
