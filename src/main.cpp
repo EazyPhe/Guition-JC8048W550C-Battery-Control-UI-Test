@@ -64,6 +64,9 @@ static ui_screen_t current_screen_id = SCREEN_HOME;
 static DisplayMode currentMode = MODE_SQUARELINE;
 static lv_style_t style_touch_point;
 
+// Frame rate limiting
+#define FRAME_TIME_MS 33 // Limit to ~30 FPS
+
 // Display flush callback for LVGL 8.x - OPTIMIZED
 static void display_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p) {
     // Frame rate limiting
