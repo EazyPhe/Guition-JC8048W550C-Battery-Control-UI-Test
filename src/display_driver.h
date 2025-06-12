@@ -30,6 +30,13 @@ esp_lcd_panel_handle_t lcd_panel_init(void);
 // Function to turn backlight on/off
 void lcd_backlight(bool on);
 
+// Function to check if frame transmission is complete
+bool is_frame_trans_done(void);
+
+// Function to wait for frame transmission completion  
+void wait_for_frame_trans_done(void);
+
 extern esp_lcd_panel_handle_t panel_handle;
+extern volatile bool frame_trans_done;
 
 #endif // DISPLAY_DRIVER_H

@@ -33,6 +33,9 @@
 #define LVGL_MALLOC_FLAGS (MALLOC_CAP_SPIRAM)
 #endif
 
+// Frame time in ms for ~30 FPS (removed - causing tearing)
+// #define FRAME_TIME_MS 33
+
 // Touch controller
 TAMC_GT911 tp(GT911_SDA_PIN, GT911_SCL_PIN, GT911_INT_PIN, GT911_RST_PIN, TOUCH_WIDTH, TOUCH_HEIGHT);
 
@@ -46,8 +49,7 @@ static lv_indev_t *indev_touch;
 static lv_obj_t *label;
 static lv_obj_t *touch_point;
 
-// Performance monitoring variables
-static uint32_t last_frame_time = 0;
+// Performance monitoring variables (frame timing removed - was causing tearing)
 static uint32_t frame_count = 0;
 static uint32_t fps_counter = 0;
 
@@ -64,19 +66,16 @@ static ui_screen_t current_screen_id = SCREEN_HOME;
 static DisplayMode currentMode = MODE_SQUARELINE;
 static lv_style_t style_touch_point;
 
-// Display flush callback for LVGL 8.x - OPTIMIZED
+// Display flush callback for LVGL 8.x - FIXED FOR TEARING
 static void display_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p) {
-    // Frame rate limiting
-    uint32_t current_time = millis();
-    uint32_t elapsed = current_time - last_frame_time;
-    
-    if (elapsed < FRAME_TIME_MS) {
-        // Skip frame if running too fast
-        lv_disp_flush_ready(disp_drv);
-        return;
-    }
-    
     if (panel_handle) {
+        // Wait for any previous frame transmission to complete before starting new one
+        wait_for_frame_trans_done();
+        
+        // Mark frame transmission as in progress
+        extern volatile bool frame_trans_done;
+        frame_trans_done = false;
+        
         esp_lcd_panel_draw_bitmap(panel_handle, area->x1, area->y1, area->x2 + 1, area->y2 + 1, color_p);
     } else {
         Serial.println("ERROR: No panel handle available");
@@ -190,7 +189,7 @@ void lvgl_tick_task(TimerHandle_t xTimer) {
 void lvgl_task(void *pvParameter) {
     while (1) {
         lv_timer_handler();
-        vTaskDelay(pdMS_TO_TICKS(1)); // Increase frequency for smoother UI
+        vTaskDelay(pdMS_TO_TICKS(5)); // Reduced from 1ms to 5ms for better frame sync
     }
 }
 

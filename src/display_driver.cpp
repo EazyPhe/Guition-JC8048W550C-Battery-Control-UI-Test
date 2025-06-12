@@ -2,13 +2,20 @@
 // #include "st7262_panel/esp_lcd_st7262.h"
 
 esp_lcd_panel_handle_t panel_handle = NULL;
+volatile bool frame_trans_done = true;
+
+// Frame transmission completion callback
+static bool IRAM_ATTR on_frame_trans_done_cb(esp_lcd_panel_handle_t panel, esp_lcd_rgb_panel_event_data_t *edata, void *user_ctx) {
+    frame_trans_done = true;
+    return false;
+}
 
 esp_lcd_panel_handle_t lcd_panel_init(void) {
     Serial.println("Initializing LCD panel...");
       esp_lcd_rgb_panel_config_t panel_config = {
         .clk_src = LCD_CLK_SRC_PLL160M,
         .timings = {
-            .pclk_hz = (20 * 1000000), // Increased to 20MHz for better performance
+            .pclk_hz = (16 * 1000000), // Reduced from 20MHz to 16MHz for better stability
             .h_res = 800,
             .v_res = 480,
             .hsync_pulse_width = 4,
@@ -39,9 +46,8 @@ esp_lcd_panel_handle_t lcd_panel_init(void) {
             5, 6, 7, 15, 16, 4,
             // B0-4
             45, 48, 47, 21, 14,
-        },
-        .disp_gpio_num = -1, // GPIO_NUM_NC (not connected)
-        .on_frame_trans_done = NULL,
+        },        .disp_gpio_num = -1, // GPIO_NUM_NC (not connected)
+        .on_frame_trans_done = on_frame_trans_done_cb,
         .user_ctx = NULL,
         .flags = {
             .disp_active_low = false,
@@ -128,4 +134,14 @@ void lcd_backlight(bool on) {
     // Turn backlight on/off
     gpio_set_level((gpio_num_t)GPIO_BCKL, on ? 1 : 0);
     Serial.printf("Backlight turned %s\n", on ? "ON" : "OFF");
+}
+
+bool is_frame_trans_done(void) {
+    return frame_trans_done;
+}
+
+void wait_for_frame_trans_done(void) {
+    while (!frame_trans_done) {
+        taskYIELD();
+    }
 }

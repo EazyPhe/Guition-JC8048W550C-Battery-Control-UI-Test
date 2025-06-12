@@ -1,4 +1,5 @@
 #include "ui_optimization.h"
+#include "ui_chart_init.h"
 #include <esp_heap_caps.h>
 #include <Arduino.h>
 
@@ -27,10 +28,15 @@ void ui_optimized_init(void) {
     ui_Home_Screen_screen_init();
     screen_initialized[SCREEN_HOME] = true;
     screen_load_times[SCREEN_HOME] = millis() - start_time;
-    
-    // Load the home screen
+      // Load the home screen
     lv_disp_load_scr(ui_Home_Screen);
     current_screen_id = SCREEN_HOME;
+    
+    // Initialize chart data manager (but not register charts yet)
+    ui_charts_init_realtime();
+    
+    // Start chart updates (charts will be registered when their screens load)
+    ui_charts_start_realtime();
     
     Serial.printf("Home screen loaded in %d ms\n", screen_load_times[SCREEN_HOME]);
     ui_memory_report();
@@ -47,19 +53,24 @@ void ui_load_screen(ui_screen_t screen_id) {
         Serial.printf("Screen %d already initialized\n", screen_id);
         return;
     }
-    
-    uint32_t start_time = millis();
-    Serial.printf("Loading screen %d...\n", screen_id);
+      uint32_t start_time = millis();
+    Serial.printf("[UI] Loading screen %d...\n", screen_id);
     
     switch (screen_id) {
         case SCREEN_HOME:
             ui_Home_Screen_screen_init();
             break;
         case SCREEN_MONITOR:
+            Serial.println("[UI] Initializing Monitor Screen...");
             ui_Monitor_Screen_screen_init();
+            // Initialize charts for Monitor screen after the screen is created
+            ui_charts_init_monitor_screen();
             break;
         case SCREEN_CONTROL:
+            Serial.println("[UI] Initializing Control Screen...");
             ui_Control_Screen_screen_init();
+            // Initialize charts for Control screen after the screen is created
+            ui_charts_init_control_screen();
             break;
         case SCREEN_SETTINGS:
             ui_Settings_Screen_screen_init();

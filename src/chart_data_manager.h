@@ -9,7 +9,7 @@ extern "C" {
 
 // Chart configuration
 #define CHART_POINT_COUNT 20  // Number of points visible on each chart
-#define CHART_UPDATE_PERIOD_MS 33 // 30Hz update rate for smooth chart animation
+#define CHART_UPDATE_PERIOD_MS 200 // 5Hz update rate for better performance (was 33ms)
 
 // Chart data structure
 typedef struct {

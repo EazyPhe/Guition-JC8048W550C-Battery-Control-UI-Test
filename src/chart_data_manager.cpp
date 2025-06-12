@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include <Arduino.h>  // For Serial debugging
 
 // Global variables
 static lv_timer_t* chart_update_timer = NULL;
@@ -37,18 +38,32 @@ static float frequency[CHART_TYPE_COUNT] = {
     [CHART_TYPE_DEMO] = 0.15f          // Fast variation for demo
 };
 
-// Generate realistic demo data with patterns
+// Generate realistic demo data with patterns - OPTIMIZED
 lv_coord_t chart_data_manager_get_demo_value(chart_type_t type) {
     if (type >= CHART_TYPE_COUNT) return 50;
     
-    float time_factor = update_counter * frequency[type];
+    // Use simpler calculations to avoid expensive floating-point operations
+    static uint32_t simple_counter = 0;
+    simple_counter++;
     
-    // Generate multiple wave components for realistic data
-    float sine_wave = sinf(time_factor) * amplitude[type] * 0.6f;
-    float cosine_wave = cosf(time_factor * 1.3f) * amplitude[type] * 0.3f;
-    float noise = ((float)(rand() % 100) / 100.0f - 0.5f) * amplitude[type] * 0.2f;
+    // Create simple wave patterns using integer math only
+    // Convert frequency to integer scaling factor (multiply by 1000 for precision)
+    uint32_t freq_scaled = (uint32_t)(frequency[type] * 1000);
     
-    float value = base_values[type] + sine_wave + cosine_wave + noise;
+    // Simple wave generation using integer math
+    uint32_t phase1 = (simple_counter * freq_scaled / 10) % 628;  // Scaled sine approximation  
+    uint32_t phase2 = (simple_counter * freq_scaled / 8) % 628;   // Scaled cosine approximation
+    
+    // Convert to approximate sine/cosine using simple lookup
+    int32_t wave1 = (phase1 < 314) ? (phase1 - 157) : (471 - phase1);  // Triangle wave ≈ sine
+    int32_t wave2 = (phase2 < 314) ? (phase2 - 157) : (471 - phase2);  // Triangle wave ≈ cosine
+    int32_t noise = (rand() % 200) - 100;  // Simple noise
+    
+    // Combine waves with reduced precision
+    float value = base_values[type] + 
+                  (wave1 * amplitude[type] * 0.6f / 157.0f) +
+                  (wave2 * amplitude[type] * 0.3f / 157.0f) + 
+                  (noise * amplitude[type] * 0.002f);
     
     // Apply constraints based on chart type
     switch (type) {
@@ -78,27 +93,59 @@ lv_coord_t chart_data_manager_get_demo_value(chart_type_t type) {
     return (lv_coord_t)value;
 }
 
-// Timer callback for updating charts
+// Timer callback for updating charts - FRAME AND LVGL SYNCHRONIZED  
 static void chart_update_timer_cb(lv_timer_t* timer) {
     (void)timer;  // Unused parameter
     
     update_counter++;
     
-    // Update all registered charts with new demo data
-    for (int i = 0; i < CHART_TYPE_COUNT; i++) {
-        if (chart_registry[i].chart && chart_registry[i].series && chart_registry[i].enabled) {
-            lv_coord_t new_value = chart_data_manager_get_demo_value((chart_type_t)i);
-            
-            // Use lv_chart_set_next_value for scrolling behavior
-            lv_chart_set_next_value(chart_registry[i].chart, chart_registry[i].series, new_value);
-            
-            // Optionally refresh the chart (usually not needed as set_next_value handles it)
-            // lv_chart_refresh(chart_registry[i].chart);
-        }
+    // CRITICAL: Wait for frame transmission to complete AND LVGL to be idle
+    extern bool is_frame_trans_done(void);
+    if (!is_frame_trans_done()) {
+        // Skip this update if frame is still being transmitted
+        return;
     }
+    
+    // Additional check: Skip if LVGL is currently doing any rendering work
+    if (lv_disp_get_inactive_time(NULL) < 50) {  // LVGL has been active recently
+        return;
+    }
+    
+    // Update only ONE chart per callback to spread the load
+    static int chart_index = 0;
+    
+    // Find next enabled chart
+    int attempts = 0;
+    while (attempts < CHART_TYPE_COUNT) {
+        if (chart_registry[chart_index].chart && 
+            chart_registry[chart_index].series && 
+            chart_registry[chart_index].enabled) {
+            
+            // Update this chart with pre-calculated simple value
+            lv_coord_t new_value = chart_data_manager_get_demo_value((chart_type_t)chart_index);
+            
+            // Temporarily disable auto-invalidation during chart update
+            lv_obj_add_flag(chart_registry[chart_index].chart, LV_OBJ_FLAG_HIDDEN);
+            lv_chart_set_next_value(chart_registry[chart_index].chart, 
+                                  chart_registry[chart_index].series, new_value);
+            lv_obj_clear_flag(chart_registry[chart_index].chart, LV_OBJ_FLAG_HIDDEN);
+            
+            // Manual invalidation at a safe time
+            lv_obj_invalidate(chart_registry[chart_index].chart);
+            break;
+        }
+        chart_index = (chart_index + 1) % CHART_TYPE_COUNT;
+        attempts++;
+    }
+    
+    // Move to next chart for next update
+    chart_index = (chart_index + 1) % CHART_TYPE_COUNT;
 }
 
 void chart_data_manager_init(void) {
+    Serial.println("[CHART] === chart_data_manager_init() CALLED ===");
+    Serial.flush();
+    
     if (manager_initialized) return;
     
     // Initialize random seed for demo data
@@ -135,7 +182,11 @@ void chart_data_manager_deinit(void) {
 }
 
 void chart_data_manager_register_chart(lv_obj_t* chart, chart_type_t type, const char* name) {
-    if (!manager_initialized || !chart || type >= CHART_TYPE_COUNT) return;
+    if (!manager_initialized || !chart || type >= CHART_TYPE_COUNT) {
+        Serial.printf("[CHART] Registration failed: init=%d, chart=%p, type=%d\n", 
+                     manager_initialized, chart, type);
+        return;
+    }
     
     // Configure the chart for real-time scrolling
     lv_chart_set_update_mode(chart, LV_CHART_UPDATE_MODE_SHIFT);  // Shift mode for scrolling
@@ -157,6 +208,9 @@ void chart_data_manager_register_chart(lv_obj_t* chart, chart_type_t type, const
         
         lv_color_t color = (type < sizeof(colors)/sizeof(colors[0])) ? colors[type] : lv_color_hex(0x808080);
         series = lv_chart_add_series(chart, color, LV_CHART_AXIS_PRIMARY_Y);
+        Serial.printf("[CHART] Created new series for %s\n", name);
+    } else {
+        Serial.printf("[CHART] Using existing series for %s\n", name);
     }
     
     // Set appropriate Y-axis range based on chart type
@@ -200,23 +254,33 @@ void chart_data_manager_register_chart(lv_obj_t* chart, chart_type_t type, const
     chart_registry[type].enabled = true;
     chart_registry[type].name = name;
     
+    Serial.printf("[CHART] Registered %s (type %d) with range %d-%d\n", 
+                 name, type, chart_registry[type].min_value, chart_registry[type].max_value);
+    
     // Initialize with some data points to fill the chart
     for (int i = 0; i < CHART_POINT_COUNT; i++) {
         lv_coord_t value = chart_data_manager_get_demo_value(type);
         lv_chart_set_next_value(chart, series, value);
         update_counter++;  // Advance counter for varied initial data
     }
+    
+    Serial.printf("[CHART] Initialized %s with %d data points\n", name, CHART_POINT_COUNT);
 }
 
 void chart_data_manager_start_updates(void) {
-    if (!manager_initialized) return;
+    if (!manager_initialized) {
+        Serial.println("[CHART] ERROR: Manager not initialized!");
+        return;
+    }
     
     if (chart_update_timer) {
         lv_timer_del(chart_update_timer);
     }
-    
-    chart_update_timer = lv_timer_create(chart_update_timer_cb, CHART_UPDATE_PERIOD_MS, NULL);
+      // Test 30Hz with frame synchronization for smooth animation
+    chart_update_timer = lv_timer_create(chart_update_timer_cb, 33, NULL);
     lv_timer_set_repeat_count(chart_update_timer, -1);  // Repeat indefinitely
+    
+    Serial.printf("[CHART] Timer created with period %d ms (30Hz with frame sync)\n", 33);
 }
 
 void chart_data_manager_stop_updates(void) {

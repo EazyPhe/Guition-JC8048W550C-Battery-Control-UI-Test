@@ -51,8 +51,18 @@ void _ui_slider_set_property(lv_obj_t * target, int id, int val)
 
 void _ui_screen_change(lv_obj_t ** target, lv_scr_load_anim_t fademode, int spd, int delay, void (*target_init)(void))
 {
-    if(*target == NULL)
+    if(*target == NULL) {
         target_init();
+        
+        // Initialize charts after screen creation if needed
+        if (target_init == ui_Monitor_Screen_screen_init) {
+            extern void ui_charts_init_monitor_screen(void);
+            ui_charts_init_monitor_screen();
+        } else if (target_init == ui_Control_Screen_screen_init) {
+            extern void ui_charts_init_control_screen(void);
+            ui_charts_init_control_screen();
+        }
+    }
     lv_scr_load_anim(*target, fademode, spd, delay, false);
 }
 
